@@ -60,6 +60,46 @@ instance Alternative Parser where
     []        -> parse q inp
     [(v,out)] -> [(v,out)])
 
+sat :: (Char -> Bool) -> Parser Char
+sat p = do x <- item
+           if p x then return x else empty
+
+digit :: Parser Char
+digit = sat isDigit
+
+lower :: Parser Char
+lower = sat isLower
+
+alphanum :: Parser Char
+alphanum = sat isAlphaNum
+
+char :: Char -> Parser Char
+char x = sat (== x)
+
+string :: String -> Parser String
+string []     = return []
+string (x:xs) = do char x
+                   string xs
+                   return (x:xs)
+
+ident :: Parser String
+ident = do x <- lower
+           xs <- many alphanum
+           return (x:xs)
+
+nat :: Parser Int
+nat = do xs <- some digit
+         return (read xs)
+
+space :: Parser ()
+space = do many (sat isSpace)
+           return ()
+
+int :: Parser Int
+int = do char '-'
+         n <- nat
+         return (-n)
+      <|> nat
 {-
 three :: Parser (Char,Char)
 three = do x <- item
