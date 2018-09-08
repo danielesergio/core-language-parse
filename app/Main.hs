@@ -1,6 +1,8 @@
 module Main where
 
 import Lib
+import Read
 
 main :: IO ()
-main = someFunc
+path = "res/input.txt"
+main = readF path >>= putStrLn
