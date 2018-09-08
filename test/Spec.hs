@@ -11,7 +11,7 @@ main = do
   defaultMain (testGroup "Our Library Tests"[
     sayYoTest,
     testAlphanumWithUnderScore1, testAlphanumWithUnderScore2, testAlphanumWithUnderScore3,
-    testParseAExpr1, testParseAExpr2])
+    testParseAExpr1, testParseAExpr2, testParseAExpr3, testParseAExpr4])
 
 sayYoTest :: TestTree
 sayYoTest = testCase "Testing sayYo"
@@ -34,3 +34,10 @@ testParseAExpr1 = testCase "test parseAExpr success with  \"a_23_ aa\"" (assertE
 
 testParseAExpr2 :: TestTree
 testParseAExpr2 = testCase "test parseAExpr success with  \" a23aa \"" (assertEqual [] [(Evar "a23aa","")] (parse parseAExpr " a23aa ") )
+
+testParseAExpr3 :: TestTree
+testParseAExpr3 = testCase "test parseAExpr fail with  1a23" (assertEqual [] [] (parse parseAExpr "1a23")  )
+
+testParseAExpr4 :: TestTree
+testParseAExpr4 = testCase "test parseAExpr fail with  _a23" (assertEqual [] [] (parse parseAExpr "_a23")  )
+

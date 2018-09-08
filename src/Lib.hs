@@ -17,7 +17,8 @@ module Lib
       identifier,
       natural,
       integer,
-      symbol
+      symbol,
+      letter
     ) where
 
 import Control.Applicative
@@ -91,6 +92,9 @@ digit = sat isDigit
 
 lower :: Parser Char
 lower = sat isLower
+
+letter :: Parser Char
+letter = sat isAlpha
 
 alphanum :: Parser Char
 alphanum = sat isAlphaNum
