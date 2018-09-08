@@ -8,7 +8,10 @@ import CoreParser
 
 main :: IO ()
 main = do
-  defaultMain (testGroup "Our Library Tests" [sayYoTest, test1, test2, test3])
+  defaultMain (testGroup "Our Library Tests"[
+    sayYoTest,
+    testAlphanumWithUnderScore1, testAlphanumWithUnderScore2, testAlphanumWithUnderScore3,
+    testParseAExpr1, testParseAExpr2])
 
 sayYoTest :: TestTree
 sayYoTest = testCase "Testing sayYo"
@@ -17,13 +20,17 @@ sayYoTest = testCase "Testing sayYo"
 doublingMakesNumbersBigger =
   testCase "Double of 4 is 8" $ assertEqual [] 8 (4 * 4)
 
-test1 :: TestTree
-test1 = testCase "test alphanumWithUnderScore success with 123" (assertEqual [] (parse alphanumWithUnderScore "123") [('1',"23")] )
+testAlphanumWithUnderScore1 :: TestTree
+testAlphanumWithUnderScore1 = testCase "test alphanumWithUnderScore success with 123" (assertEqual [] [('1',"23")] (parse alphanumWithUnderScore "123"))
 
-test2 :: TestTree
-test2 = testCase "test alphanumWithUnderScore success with _a23" (assertEqual [] (parse alphanumWithUnderScore "_a23") [('_',"a23")] )
+testAlphanumWithUnderScore2 :: TestTree
+testAlphanumWithUnderScore2 = testCase "test alphanumWithUnderScore success with _a23" (assertEqual [] [('_',"a23")] (parse alphanumWithUnderScore "_a23") )
 
-test3 :: TestTree
-test3 = testCase "test alphanumWithUnderScore fail with  +a23" (assertEqual [] (parse alphanumWithUnderScore "+a23") [] )
+testAlphanumWithUnderScore3 :: TestTree
+testAlphanumWithUnderScore3 = testCase "test alphanumWithUnderScore fail with  +a23" (assertEqual [] [] (parse alphanumWithUnderScore "+a23")  )
 
+testParseAExpr1 :: TestTree
+testParseAExpr1 = testCase "test parseAExpr success with  \"a_23_ aa\"" (assertEqual [] [(Evar "a_23_","aa")] (parse parseAExpr "a_23_ aa"))
 
+testParseAExpr2 :: TestTree
+testParseAExpr2 = testCase "test parseAExpr success with  \" a23aa \"" (assertEqual [] [(Evar "a23aa","")] (parse parseAExpr " a23aa ") )

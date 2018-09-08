@@ -1,5 +1,6 @@
 module CoreParser(
-          alphanumWithUnderScore
+          alphanumWithUnderScore,
+          parseAExpr
 ) where
 
 import Lib
@@ -30,15 +31,18 @@ parseScDef = do v <- parseVar
 
 
 
--- use symbol instead of character
 --character :: Char -> Parser Char
 --character x = token (Lib.char x)
 --
---parseAExpr :: Parser (Expr String)
---parseAExpr = do x <- character
---                xs <-some alphanumWithUnderScore
---                return (Evar x:xs)
---
+
+parseAExpr :: Parser (Expr String)
+parseAExpr = token parseAExpr_
+
+parseAExpr_ :: Parser (Expr String)
+parseAExpr_ = do x <- alphanum
+                 xs <-some alphanumWithUnderScore
+                 return (Evar (x:xs))
+
 alphanumWithUnderScore :: Parser Char
 alphanumWithUnderScore = alphanum <|> sat (== '_')
 

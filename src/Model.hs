@@ -19,7 +19,7 @@ data Expr a
     | ELet IsRec [Def a] (Expr a)
     | ECase (Expr a) [Alter a]
     | ELam [a] (Expr a)
-    deriving Show
+    deriving (Eq, Show)
 
 type Name = String
 type Program a      = [ScDefn a]
@@ -30,4 +30,5 @@ type Def a          = (a, Expr a)
 type Alter a        = (Int, [a], Expr a)
 
 data IsRec = NonRecursive | Recursive
-  deriving Show
+  deriving (Eq, Show)
+
