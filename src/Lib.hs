@@ -2,12 +2,13 @@ module Lib
     ( someFunc
     ) where
 
+import Control.Applicative
+import Data.Char
+
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
 
 
-import Control.Applicative
-import Data.Char
 
 
 stringToParse = "adfasdf"
