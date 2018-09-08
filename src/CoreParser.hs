@@ -42,6 +42,8 @@ parseAExpr_ :: Parser (Expr String)
 parseAExpr_ = do x <- letter
                  xs <-some alphanumWithUnderScore
                  return (Evar (x:xs))
+                 <|> do n <- nat
+                        return (ENum n)
 
 
 alphanumWithUnderScore :: Parser Char
