@@ -22,8 +22,8 @@ data Expr a
     deriving Show
 
 type Name = String
-type Program a     = [ScDefn a]
-type CoreProgram a = ScDefn Name
+type Program a      = [ScDefn a]
+type CoreProgram a  = ScDefn Name
 type ScDefn a       = (Name, [a], Expr a)
 type CoreScDefn     = ScDefn Name
 type Def a          = (a, Expr a)
