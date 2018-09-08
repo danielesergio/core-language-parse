@@ -1,5 +1,23 @@
 module Lib
-    ( someFunc
+    ( someFunc,
+      Parser,
+      parse,
+      item,
+      sat,
+      digit,
+      lower,
+      alphanum,
+      char,
+      string,
+      ident,
+      nat,
+      space,
+      init,
+      token,
+      identifier,
+      natural,
+      integer,
+      symbol
     ) where
 
 import Control.Applicative
@@ -7,9 +25,6 @@ import Data.Char
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
-
-
-
 
 stringToParse = "adfasdf"
 
@@ -126,7 +141,7 @@ integer = token int
 symbol :: String -> Parser String
 symbol xs = token (string xs)
 
-
+{-
 expr :: Parser Int
 expr = do t <- term
           do symbol "+"
@@ -153,7 +168,8 @@ eval xs = case (parse expr xs) of
               [(n,[])] -> n
               [(_,out)] -> error ("unused input " ++ out)
               [] -> error "Invalid input"
-{-
+
+
 nats :: Parser [Int]
 nats = do symbol "["
           n <- natural
