@@ -1,20 +1,64 @@
-name:                core-language-parser
-version:             0.1.0.0
--- synopsis:
--- description:
-homepage:            https://github.com/danielesergio/core-language-parser#readme
-license:             BSD3
-license-file:        LICENSE
-author:              Daniele Sergio
-maintainer:          daniele.sergio0@gmail.com
-copyright:           GPL
-category:            My new project
-build-type:          Simple
-cabal-version:       >=1.10
-extra-source-files:  README.md
+-- This file has been generated from package.yaml by hpack version 0.28.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 5fcc096422a5f02cbb701938f19be2359721341ca3c46bbf743c205fb2125656
 
-executable core-language-parser
-  hs-source-dirs:      src
-  main-is:             Main.hs
-  default-language:    Haskell2010
-  build-depends:       base >= 4.7 && < 5
+name:           core-language-parser
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/danielesergio/core-language-parser#readme>
+homepage:       https://github.com/danielesergio/core-language-parser#readme
+bug-reports:    https://github.com/danielesergio/core-language-parser/issues
+author:         Daniele Sergio
+maintainer:     daniele.sergio0@gmail.com
+copyright:      GPL
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+cabal-version:  >= 1.10
+extra-source-files:
+    ChangeLog.md
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/danielesergio/core-language-parser
+
+library
+  exposed-modules:
+      Lib
+      Main
+  other-modules:
+      Paths_core_language_parser
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable core-language-parser-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_core_language_parser
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , core-language-parser
+  default-language: Haskell2010
+
+test-suite core-language-parser-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_core_language_parser
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base
+    , core-language-parser
+    , tasty
+    , tasty-hunit
+  default-language: Haskell2010

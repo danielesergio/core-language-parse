@@ -1,0 +1,51 @@
+name:                core-language-parser
+version:             0.1.0.0
+github:              "danielesergio/core-language-parser"
+license:             BSD3
+author:              "Daniele Sergio"
+maintainer:          "daniele.sergio0@gmail.com"
+copyright:           "GPL"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            My new project
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/danielesergio/core-language-parser#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+executables:
+  core-language-parser-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - core-language-parser
+
+tests:
+  core-language-parser-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - core-language-parser
+    - base
+    - tasty
+    - tasty-hunit

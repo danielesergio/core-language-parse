@@ -1,4 +1,10 @@
-module Main where
+module Lib
+    ( someFunc
+    ) where
+
+someFunc :: IO ()
+someFunc = putStrLn "someFunc"
+
 
 import Control.Applicative
 import Data.Char
@@ -120,6 +126,32 @@ symbol :: String -> Parser String
 symbol xs = token (string xs)
 
 
+expr :: Parser Int
+expr = do t <- term
+          do symbol "+"
+             e <- expr
+             return (t + e)
+             <|> return t
+
+term :: Parser Int
+term = do f <- factor
+          do symbol "*"
+             t <- term
+             return (f * t)
+             <|> return f
+
+factor :: Parser Int
+factor = do symbol "("
+            e <- expr
+            symbol ")"
+            return e
+         <|> natural
+
+eval :: String -> Int
+eval xs = case (parse expr xs) of
+              [(n,[])] -> n
+              [(_,out)] -> error ("unused input " ++ out)
+              [] -> error "Invalid input"
 {-
 nats :: Parser [Int]
 nats = do symbol "["
