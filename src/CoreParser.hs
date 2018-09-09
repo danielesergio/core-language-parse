@@ -6,13 +6,13 @@ module CoreParser(
 import Lib
 import Model
 import Control.Applicative
-{-
+
 parseProg :: Parser (Program Name)
 parseProg = do p <- parseScDef
                do character ';'
                   ps <- parseProg
                   return (p:ps)
-               <|> return [p]
+                  <|> return [p]
 
 parseScDef :: Parser (ScDefn Name)
 parseScDef = do v <- parseVar
@@ -20,21 +20,21 @@ parseScDef = do v <- parseVar
                 character '='
                 body <- parseExpr -- call to parseExpr
                 return (v, pf, body)
--}
 
 
 
 --parseExpr :: Parser (Expr Name)
---parseAExpr :: Parser (String Name)
+--parseAExpr :: Parser (Expr Name)
 --parseDef :: Parser (Def Name)
 --parseAlt :: Parser (Alter Name)
 
 
 
---character :: Char -> Parser Char
---character x = token (Lib.char x)
+character :: Char -> Parser Char
+character x = token (Lib.char x)
 --
 
+-- start parseAExpr
 parseAExpr :: Parser (Expr Name)
 parseAExpr = token parseAExpr_
 
@@ -50,10 +50,9 @@ parsePack = do string "Pack"
                symbol "}"
                return (EConstr x y)
 
--- todo use parseExpr instead of parseAExpr
 parseExprIntoBrackets :: Parser (Expr Name)
 parseExprIntoBrackets = do symbol "("
-                           expr <- parseAExpr
+                           expr <- parseExpr
                            symbol ")"
                            return expr
 
@@ -61,7 +60,7 @@ parseExprIntoBrackets = do symbol "("
 parserAExprVar :: Parser (Expr Name)
 parserAExprVar =  do x <- parseVar
                      return (EVar x)
-
+-- start parseAExpr
 parseVar :: Parser (Name)
 parseVar =  do x <- letter
                xs <-some alphanumWithUnderScore
@@ -73,6 +72,20 @@ parserAExprNumber = do n <- nat
 
 alphanumWithUnderScore :: Parser Char
 alphanumWithUnderScore = alphanum <|> sat (== '_')
+
+
+-- start parseDef
+
+-- end parseDef
+
+-- start parseAlt
+
+-- end  parseAlt
+
+-- start parseExpr
+parseExpr :: Parser (Expr Name)
+parseExpr = parseAExpr
+-- end  parseExpr
 
 isKey :: String -> Bool
 isKey = \x -> elem x ["Pack"]
