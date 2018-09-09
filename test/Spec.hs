@@ -17,7 +17,8 @@ main = do
     testParseAlt1, testParseAlt2, testParseAlt3, testParseAlt4, testParseAlt5,
     testParseList1, testParseList2, testParseList3, testParseList4,
     testParseIsRec1, testParseIsRec2, testParseIsRec3, testParseIsRec4,
-    testParseLet1, testParseLet2, testParseLet3, testParseLet4, testParseLet5, testParseLet6
+    testParseLet1, testParseLet2, testParseLet3, testParseLet4, testParseLet5, testParseLet6,
+    testParseCase1, testParseCase2, testParseCase3, testParseCase4, testParseCase5, testParseCase6, testParseCase7
     ])
 
 
@@ -134,3 +135,26 @@ testParseLet5 = assertEqualTestTemplate "parseLet fails with" "let x = Pack{121,
 
 testParseLet6 :: TestTree
 testParseLet6 = assertEqualTestTemplate "parseLet fails with" "let x = Pack{121,0} z" (parse parseLet)  []
+
+testParseCase1 :: TestTree
+testParseCase1 = assertEqualTestTemplate "parseCase success with" "case 1 of <1> x y -> Pack{121,0}; <2>  -> 1;  <3> x -> test" (parse parseCase)  [(ECase (ENum 1) [(1, ["x","y"], EConstr 121 0), (2, [], ENum 1), (3, ["x"], EVar "test")], "")]
+
+testParseCase2 :: TestTree
+testParseCase2 = assertEqualTestTemplate "parseCase success with" "case 1 of <1>  -> Pack{121,0}" (parse parseCase)  [(ECase (ENum 1) [(1, [], EConstr 121 0)], "")]
+
+testParseCase3 :: TestTree
+testParseCase3 = assertEqualTestTemplate "parseCase fails with" "case 1 of <1> x y -> " (parse parseCase)  []
+
+testParseCase4 :: TestTree
+testParseCase4 = assertEqualTestTemplate "parseCase fails with" "1 of <1> x y -> Pack{121,0}" (parse parseCase)  []
+
+testParseCase5 :: TestTree
+testParseCase5 = assertEqualTestTemplate "parseCase fails with" "case  of <1> x y -> Pack{121,0}" (parse parseCase)  []
+
+testParseCase6 :: TestTree
+testParseCase6 = assertEqualTestTemplate "parseCase fails with" "case 1 of  x y -> Pack{121,0}" (parse parseCase)  []
+
+testParseCase7 :: TestTree
+testParseCase7 = assertEqualTestTemplate "parseCase fails with" "case 1 of <1> x y  Pack{121,0}" (parse parseCase)  []
+
+

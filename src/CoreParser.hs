@@ -5,7 +5,8 @@ module CoreParser(
           parseAlt,
           parseList,
           parseLet,
-          parseIsRec
+          parseIsRec,
+          parseCase
 ) where
 
 import Lib
@@ -129,6 +130,12 @@ parseLet = do isRec <- parseIsRec
               expr  <- parseExpr
               return (ELet isRec defs expr)
 
+parseCase :: Parser (Expr Name)
+parseCase  = do symbol "case"
+                expr <- parseExpr
+                symbol "of"
+                alts <- parseList parseAlt ";"
+                return (ECase expr alts)
 
 isKey :: String -> Bool
 isKey = \x -> elem x ["Pack", "let", "letrec", "in"]
