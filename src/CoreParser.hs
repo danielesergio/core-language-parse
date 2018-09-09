@@ -35,13 +35,13 @@ parseScDef = do v <- parseVar
 --character x = token (Lib.char x)
 --
 
-parseAExpr :: Parser (Expr String)
+parseAExpr :: Parser (Expr Name)
 parseAExpr = token parseAExpr_
 
-parseAExpr_ :: Parser (Expr String)
+parseAExpr_ :: Parser (Expr Name)
 parseAExpr_ = parseExprIntoBrackets <|> parsePack <|> parserAExprVar <|> parserAExprNumber
 
-parsePack :: Parser (Expr String)
+parsePack :: Parser (Expr Name)
 parsePack = do string "Pack"
                symbol "{"
                x <- natural
@@ -51,23 +51,23 @@ parsePack = do string "Pack"
                return (EConstr x y)
 
 -- todo use parseExpr instead of parseAExpr
-parseExprIntoBrackets :: Parser (Expr String)
+parseExprIntoBrackets :: Parser (Expr Name)
 parseExprIntoBrackets = do symbol "("
                            expr <- parseAExpr
                            symbol ")"
                            return expr
 
 -- todo check that prevents var is a key (ex Pack) respect langauge{--} grammar
-parserAExprVar :: Parser (Expr String)
+parserAExprVar :: Parser (Expr Name)
 parserAExprVar =  do x <- parseVar
                      return (EVar x)
 
-parseVar :: Parser (String)
+parseVar :: Parser (Name)
 parseVar =  do x <- letter
                xs <-some alphanumWithUnderScore
                if isKey (x:xs) then empty else return (x:xs)
 
-parserAExprNumber :: Parser (Expr String)
+parserAExprNumber :: Parser (Expr Name)
 parserAExprNumber = do n <- nat
                        return (ENum n)
 
