@@ -59,7 +59,7 @@ parseExprIntoBrackets = do symbol "("
 parserAExprVar :: Parser (Expr String)
 parserAExprVar =  do x <- letter
                      xs <-some alphanumWithUnderScore
-                     return (Evar (x:xs))
+                     return (EVar (x:xs))
 
 parserAExprNumber :: Parser (Expr String)
 parserAExprNumber = do n <- nat

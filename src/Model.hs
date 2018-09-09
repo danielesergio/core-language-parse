@@ -12,7 +12,7 @@ module Model(
 
 
 data Expr a
-   =  Evar Name
+   =  EVar Name
     | ENum Int
     | EConstr Int Int
     | EAp (Expr a) (Expr a)

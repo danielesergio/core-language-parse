@@ -30,10 +30,10 @@ testAlphanumWithUnderScore3 :: TestTree
 testAlphanumWithUnderScore3 = testCase "test alphanumWithUnderScore fail with  +a23" (assertEqual [] [] (parse alphanumWithUnderScore "+a23")  )
 
 testParseAExpr1 :: TestTree
-testParseAExpr1 = testCase "test parseAExpr success with  \"a_23_ aa\"" (assertEqual [] [(Evar "a_23_","aa")] (parse parseAExpr "a_23_ aa"))
+testParseAExpr1 = testCase "test parseAExpr success with  \"a_23_ aa\"" (assertEqual [] [(EVar "a_23_","aa")] (parse parseAExpr "a_23_ aa"))
 
 testParseAExpr2 :: TestTree
-testParseAExpr2 = testCase "test parseAExpr success with  \" a23aa \"" (assertEqual [] [(Evar "a23aa","")] (parse parseAExpr " a23aa ") )
+testParseAExpr2 = testCase "test parseAExpr success with  \" a23aa \"" (assertEqual [] [(EVar "a23aa","")] (parse parseAExpr " a23aa ") )
 
 testParseAExpr3 :: TestTree
 testParseAExpr3 = testCase "test parseAExpr success with  1a23" (assertEqual [] [(ENum 1,"a23")] (parse parseAExpr "1a23")  )
@@ -54,7 +54,7 @@ testParseAExpr8 :: TestTree
 testParseAExpr8 = testCase "test parseAExpr success with  \"(121) _asdf \"" (assertEqual [] [(ENum 121,"_asdf ")] (parse parseAExpr "(121) _asdf ") )
 
 testParseAExpr9 :: TestTree
-testParseAExpr9 = testCase "test parseAExpr success with  \"(var)121 _asdf \"" (assertEqual [] [(Evar "var","121 _asdf ")] (parse parseAExpr "(var)121 _asdf ") )
+testParseAExpr9 = testCase "test parseAExpr success with  \"(var)121 _asdf \"" (assertEqual [] [(EVar "var","121 _asdf ")] (parse parseAExpr "(var)121 _asdf ") )
 
 
 
