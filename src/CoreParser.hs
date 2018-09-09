@@ -59,9 +59,13 @@ parseExprIntoBrackets = do symbol "("
 
 -- todo check that prevents var is a key (ex Pack) respect langauge{--} grammar
 parserAExprVar :: Parser (Expr String)
-parserAExprVar =  do x <- letter
-                     xs <-some alphanumWithUnderScore
-                     if isKey (x:xs) then empty else return (EVar (x:xs))
+parserAExprVar =  do x <- parseVar
+                     return (EVar x)
+
+parseVar :: Parser (String)
+parseVar =  do x <- letter
+               xs <-some alphanumWithUnderScore
+               if isKey (x:xs) then empty else return (x:xs)
 
 parserAExprNumber :: Parser (Expr String)
 parserAExprNumber = do n <- nat
