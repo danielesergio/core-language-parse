@@ -10,18 +10,11 @@ import Text.Printf
 main :: IO ()
 main = do
   defaultMain (testGroup "Our Library Tests"[
-    sayYoTest,
     testAlphanumWithUnderScore1, testAlphanumWithUnderScore2, testAlphanumWithUnderScore3,
     testParseAExpr1, testParseAExpr2, testParseAExpr3, testParseAExpr4, testParseAExpr5, testParseAExpr6, testParseAExpr7,
     testParseAExpr8, testParseAExpr9, testParseAExpr10
     ])
 
-sayYoTest :: TestTree
-sayYoTest = testCase "Testing sayYo"
-  (assertEqual "Should say Yo to Friend!" "Yo Friend!" ("Yo Friend!"))
-
-doublingMakesNumbersBigger =
-  testCase "Double of 4 is 8" $ assertEqual [] 8 (4 * 4)
 
 assertEqualTestTemplate :: (Eq b, Show b) => String -> String -> (String -> b) -> b -> TestTree
 assertEqualTestTemplate desc inp f result = testCase (printf "test %s with \"%s\" (expeted: %s)" desc inp (show result)) (assertEqual [] result (f inp))
