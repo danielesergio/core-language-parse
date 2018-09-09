@@ -1,13 +1,17 @@
 module Read(
-        readF
+        readFileAndParse
     ) where
 
 import System.IO
 import Model(Program, Name)
+import CoreParser
+import Model
+import Lib
+import Control.Applicative
 
--- main :: IO (Program Name)
--- main = do inp <- readF
---           return (comp (parse parseProg inp)) --here you call parseProg
+readFileAndParse :: String -> IO (Program Name)
+readFileAndParse path = do inp <- readF path
+                           return (comp (parse parseProg inp)) --here you call parseProg
 
 comp :: [(Program Name, Name)] -> Program Name
 comp []       = error "no parse"
@@ -28,3 +32,18 @@ readloop inh = do ineof <- hIsEOF inh
                               x  <- hGetLine inh
                               xs <- readloop inh
                               return (x++xs)
+
+
+parseProg :: Parser (Program Name)
+parseProg = do p <- parseScDef
+               do character ';'
+                  ps <- parseProg
+                  return (p:ps)
+                  <|> return [p]
+
+parseScDef :: Parser (ScDefn Name)
+parseScDef = do v <- parseVar
+                pf <- many parseVar
+                character '='
+                body <- parseExpr -- call to parseExpr
+                return (v, pf, body)

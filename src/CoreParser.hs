@@ -7,27 +7,15 @@ module CoreParser(
           parseLet,
           parseIsRec,
           parseCase,
-          parseLambda
+          parseLambda,
+          character,
+          parseVar,
+          parseExpr
 ) where
 
 import Lib
 import Model
 import Control.Applicative
-
-parseProg :: Parser (Program Name)
-parseProg = do p <- parseScDef
-               do character ';'
-                  ps <- parseProg
-                  return (p:ps)
-                  <|> return [p]
-
-parseScDef :: Parser (ScDefn Name)
-parseScDef = do v <- parseVar
-                pf <- many parseVar
-                character '='
-                body <- parseExpr -- call to parseExpr
-                return (v, pf, body)
-
 
 
 --parseExpr :: Parser (Expr Name)
@@ -107,7 +95,7 @@ parseAlt = do symbol "<"
 
 -- start parseExpr
 parseExpr :: Parser (Expr Name)
-parseExpr = parseAExpr
+parseExpr = parseCase <|> parseLet <|> parseLambda <|> parseAExpr
 -- end  parseExpr
 
 parseList :: Parser a -> String -> Parser [a]

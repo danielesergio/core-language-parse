@@ -2,7 +2,8 @@ module Main where
 
 import Lib
 import Read
+import Model
 
 main :: IO ()
-path = "res/input.txt"
-main = readF path >>= putStrLn
+main =  readFileAndParse "res/input.txt" >>= print
+
