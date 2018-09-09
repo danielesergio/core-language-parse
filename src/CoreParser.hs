@@ -63,7 +63,7 @@ parserAExprVar =  do x <- parseVar
 -- start parseAExpr
 parseVar :: Parser (Name)
 parseVar =  do x <- letter
-               xs <-some alphanumWithUnderScore
+               xs <-many alphanumWithUnderScore
                if isKey (x:xs) then empty else return (x:xs)
 
 parserAExprNumber :: Parser (Expr Name)

@@ -12,7 +12,7 @@ main = do
   defaultMain (testGroup "Our Library Tests"[
     testAlphanumWithUnderScore1, testAlphanumWithUnderScore2, testAlphanumWithUnderScore3,
     testParseAExpr1, testParseAExpr2, testParseAExpr3, testParseAExpr4, testParseAExpr5, testParseAExpr6, testParseAExpr7,
-    testParseAExpr8, testParseAExpr9, testParseAExpr10
+    testParseAExpr8, testParseAExpr9, testParseAExpr10, testParseAExpr11
     ])
 
 
@@ -58,5 +58,7 @@ testParseAExpr9 = assertEqualTestTemplate "parseAExpr successes with" "(var)121 
 testParseAExpr10 :: TestTree
 testParseAExpr10 = assertEqualTestTemplate "parseAExpr fails with" "Pack 121 _asdf " (parse parseAExpr) []
 
+testParseAExpr11 :: TestTree
+testParseAExpr11 = assertEqualTestTemplate "parseAExpr successes with" " a 23aa " (parse parseAExpr) [(EVar "a","23aa ")]
 
 
