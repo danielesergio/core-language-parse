@@ -63,9 +63,12 @@ parserAExprVar =  do x <- parseVar
                      return (EVar x)
 -- start parseAExpr
 parseVar :: Parser (Name)
-parseVar =  do x <- letter
-               xs <-many alphanumWithUnderScore
-               if isKey (x:xs) then empty else return (x:xs)
+parseVar = token parseVar_
+
+parseVar_ :: Parser (Name)
+parseVar_ =  do x  <- letter
+                xs <- many alphanumWithUnderScore
+                if isKey (x:xs) then empty else return (x:xs)
 
 parserAExprNumber :: Parser (Expr Name)
 parserAExprNumber = do n <- natural
