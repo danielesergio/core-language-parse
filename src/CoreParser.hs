@@ -68,7 +68,7 @@ parseVar =  do x <- letter
                if isKey (x:xs) then empty else return (x:xs)
 
 parserAExprNumber :: Parser (Expr Name)
-parserAExprNumber = do n <- nat
+parserAExprNumber = do n <- natural
                        return (ENum n)
 
 alphanumWithUnderScore :: Parser Char
