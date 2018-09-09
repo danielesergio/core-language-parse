@@ -5,6 +5,7 @@ import Test.Tasty.HUnit
 import Lib
 import Model
 import CoreParser
+import Text.Printf
 
 main :: IO ()
 main = do
@@ -22,44 +23,47 @@ sayYoTest = testCase "Testing sayYo"
 doublingMakesNumbersBigger =
   testCase "Double of 4 is 8" $ assertEqual [] 8 (4 * 4)
 
+assertEqualTestTemplate :: (Eq b, Show b) => String -> String -> (String -> b) -> b -> TestTree
+assertEqualTestTemplate desc inp f result = testCase (printf "test %s with \"%s\" (expeted: %s)" desc inp (show result)) (assertEqual [] result (f inp))
+
 testAlphanumWithUnderScore1 :: TestTree
-testAlphanumWithUnderScore1 = testCase "test alphanumWithUnderScore successes with 123" (assertEqual [] [('1',"23")] (parse alphanumWithUnderScore "123"))
+testAlphanumWithUnderScore1 = assertEqualTestTemplate "alphanumWithUnderScore successes" "123" (parse alphanumWithUnderScore) [('1',"23")]
 
 testAlphanumWithUnderScore2 :: TestTree
-testAlphanumWithUnderScore2 = testCase "test alphanumWithUnderScore successes with _a23" (assertEqual [] [('_',"a23")] (parse alphanumWithUnderScore "_a23") )
+testAlphanumWithUnderScore2 = assertEqualTestTemplate "alphanumWithUnderScore successes" "_a23" (parse alphanumWithUnderScore) [('_',"a23")]
 
 testAlphanumWithUnderScore3 :: TestTree
-testAlphanumWithUnderScore3 = testCase "test alphanumWithUnderScore fails with  +a23" (assertEqual [] [] (parse alphanumWithUnderScore "+a23")  )
+testAlphanumWithUnderScore3 = assertEqualTestTemplate "alphanumWithUnderScore fails" "+a23" (parse alphanumWithUnderScore) []
 
 testParseAExpr1 :: TestTree
-testParseAExpr1 = testCase "test parseAExpr successes with  \"a_23_ aa\"" (assertEqual [] [(EVar "a_23_","aa")] (parse parseAExpr "a_23_ aa"))
+testParseAExpr1 = assertEqualTestTemplate "parseAExpr successes with" "a_23_ aa" (parse parseAExpr) [(EVar "a_23_","aa")]
 
 testParseAExpr2 :: TestTree
-testParseAExpr2 = testCase "test parseAExpr successes with  \" a23aa \"" (assertEqual [] [(EVar "a23aa","")] (parse parseAExpr " a23aa ") )
+testParseAExpr2 = assertEqualTestTemplate "parseAExpr successes with" " a23aa " (parse parseAExpr) [(EVar "a23aa","")]
 
 testParseAExpr3 :: TestTree
-testParseAExpr3 = testCase "test parseAExpr successes with  1a23" (assertEqual [] [(ENum 1,"a23")] (parse parseAExpr "1a23")  )
+testParseAExpr3 = assertEqualTestTemplate "parseAExpr successes with" " 1a23 " (parse parseAExpr) [(ENum 1,"a23 ")]
 
 testParseAExpr4 :: TestTree
-testParseAExpr4 = testCase "test parseAExpr fails with  _a23" (assertEqual [] [] (parse parseAExpr "_a23")  )
+testParseAExpr4 = assertEqualTestTemplate "parseAExpr fails with" "_a23" (parse parseAExpr) []
 
 testParseAExpr5 :: TestTree
-testParseAExpr5 = testCase "test parseAExpr successes with  \"121 _asdf \"" (assertEqual [] [(ENum 121,"_asdf ")] (parse parseAExpr "121 _asdf ") )
+testParseAExpr5 = assertEqualTestTemplate "parseAExpr successes with" "121 _asdf " (parse parseAExpr)  [(ENum 121,"_asdf ")]
 
 testParseAExpr6 :: TestTree
-testParseAExpr6 = testCase "test parseAExpr successes with  \"Pack{121,0}_asdf \"" (assertEqual [] [(EConstr 121 0,"_asdf ")] (parse parseAExpr "Pack{121,0}_asdf ") )
+testParseAExpr6 = assertEqualTestTemplate "parseAExpr successes with" "Pack{121,0}_asdf " (parse parseAExpr)  [(EConstr 121 0,"_asdf ")]
 
 testParseAExpr7 :: TestTree
-testParseAExpr7 = testCase "test parseAExpr successes with  \"(Pack{121,0})_asdf \"" (assertEqual [] [(EConstr 121 0,"_asdf ")] (parse parseAExpr "(Pack{121,0})_asdf ") )
+testParseAExpr7 = assertEqualTestTemplate "parseAExpr successes with" "(Pack{121,0})_asdf " (parse parseAExpr)  [(EConstr 121 0,"_asdf ")]
 
 testParseAExpr8 :: TestTree
-testParseAExpr8 = testCase "test parseAExpr successes with  \"(121) _asdf \"" (assertEqual [] [(ENum 121,"_asdf ")] (parse parseAExpr "(121) _asdf ") )
+testParseAExpr8 = assertEqualTestTemplate "parseAExpr successes with" "(121) _asdf " (parse parseAExpr)  [(ENum 121,"_asdf ")]
 
 testParseAExpr9 :: TestTree
-testParseAExpr9 = testCase "test parseAExpr successes with  \"(var)121 _asdf \"" (assertEqual [] [(EVar "var","121 _asdf ")] (parse parseAExpr "(var)121 _asdf ") )
+testParseAExpr9 = assertEqualTestTemplate "parseAExpr successes with" "(var)121 _asdf " (parse parseAExpr)  [(EVar "var","121 _asdf ")]
 
 testParseAExpr10 :: TestTree
-testParseAExpr10 = testCase "test parseAExpr failse with  \"Pack 121 _asdf \"" (assertEqual [] [] (parse parseAExpr "Pack 121 _asdf ") )
+testParseAExpr10 = assertEqualTestTemplate "parseAExpr fails with" "Pack 121 _asdf " (parse parseAExpr) []
 
 
 
