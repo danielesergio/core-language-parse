@@ -50,6 +50,7 @@ parsePack = do string "Pack"
                symbol "}"
                return (EConstr x y)
 
+-- todo use parseExpr instead of parseAExpr
 parseExprIntoBrackets :: Parser (Expr String)
 parseExprIntoBrackets = do symbol "("
                            expr <- parseAExpr
