@@ -12,7 +12,8 @@ main = do
   defaultMain (testGroup "Our Library Tests"[
     testAlphanumWithUnderScore1, testAlphanumWithUnderScore2, testAlphanumWithUnderScore3,
     testParseAExpr1, testParseAExpr2, testParseAExpr3, testParseAExpr4, testParseAExpr5, testParseAExpr6, testParseAExpr7,
-    testParseAExpr8, testParseAExpr9, testParseAExpr10, testParseAExpr11
+    testParseAExpr8, testParseAExpr9, testParseAExpr10, testParseAExpr11,
+    testParseDef1, testParseDef2, testParseDef3, testParseDef4
     ])
 
 
@@ -61,4 +62,15 @@ testParseAExpr10 = assertEqualTestTemplate "parseAExpr fails with" "Pack 121 _as
 testParseAExpr11 :: TestTree
 testParseAExpr11 = assertEqualTestTemplate "parseAExpr successes with" " a 23aa " (parse parseAExpr) [(EVar "a","23aa ")]
 
+testParseDef1 :: TestTree
+testParseDef1 = assertEqualTestTemplate "parseDef successes with" "x = Pack{121,0}" (parse parseDef)  [(("x", EConstr 121 0),"")]
+
+testParseDef2 :: TestTree
+testParseDef2 = assertEqualTestTemplate "parseDef successes with" "var = 3" (parse parseDef)  [(("var", ENum 3),"")]
+
+testParseDef3 :: TestTree
+testParseDef3 = assertEqualTestTemplate "parseDef fails with" "vv  3" (parse parseDef)  []
+
+testParseDef4 :: TestTree
+testParseDef4 = assertEqualTestTemplate "parseDef fails with" "vv = " (parse parseDef)  []
 

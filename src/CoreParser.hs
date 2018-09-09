@@ -1,6 +1,7 @@
 module CoreParser(
           alphanumWithUnderScore,
-          parseAExpr
+          parseAExpr,
+          parseDef
 ) where
 
 import Lib
@@ -75,6 +76,11 @@ alphanumWithUnderScore = alphanum <|> sat (== '_')
 
 
 -- start parseDef
+parseDef :: Parser (Def Name)
+parseDef =  do var <- parseVar
+               symbol "="
+               expr <- parseExpr
+               return (var, expr)
 
 -- end parseDef
 
