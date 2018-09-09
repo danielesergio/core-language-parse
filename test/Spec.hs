@@ -18,7 +18,8 @@ main = do
     testParseList1, testParseList2, testParseList3, testParseList4,
     testParseIsRec1, testParseIsRec2, testParseIsRec3, testParseIsRec4,
     testParseLet1, testParseLet2, testParseLet3, testParseLet4, testParseLet5, testParseLet6,
-    testParseCase1, testParseCase2, testParseCase3, testParseCase4, testParseCase5, testParseCase6, testParseCase7
+    testParseCase1, testParseCase2, testParseCase3, testParseCase4, testParseCase5, testParseCase6, testParseCase7,
+    testParseLambda1, testParseLambda2, testParseLambda3, testParseLambda4, testParseLambda5, testParseLambda6
     ])
 
 
@@ -159,5 +160,23 @@ testParseCase6 = assertEqualTestTemplate "parseCase fails with" "case 1 of  x y 
 
 testParseCase7 :: TestTree
 testParseCase7 = assertEqualTestTemplate "parseCase fails with" "case 1 of <1> x y  Pack{121,0}" (parse parseCase)  []
+
+testParseLambda1 :: TestTree
+testParseLambda1 = assertEqualTestTemplate "parseCase successes with" "\\ x1 x2 . Pack{121,0}" (parse parseLambda)  [( ELam ["x1", "x2"]  (EConstr 121 0), "")]
+
+testParseLambda2 :: TestTree
+testParseLambda2 = assertEqualTestTemplate "parseCase successes with" "\\ x1 . 1" (parse parseLambda)  [(ELam  ["x1"]  (ENum 1), "")]
+
+testParseLambda3 :: TestTree
+testParseLambda3 = assertEqualTestTemplate "parseCase fails with" " x1 . 1" (parse parseLambda)  []
+
+testParseLambda4 :: TestTree
+testParseLambda4 = assertEqualTestTemplate "parseCase fails with" "\\  . 1" (parse parseLambda)  []
+
+testParseLambda5 :: TestTree
+testParseLambda5 = assertEqualTestTemplate "parseCase fails with" "\\ x1   1" (parse parseLambda)  []
+
+testParseLambda6 :: TestTree
+testParseLambda6 = assertEqualTestTemplate "parseCase fails with" "\\ x1" (parse parseLambda)  []
 
 
