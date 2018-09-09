@@ -10,7 +10,13 @@ module CoreParser(
           parseLambda,
           character,
           parseVar,
-          parseExpr
+          parseExpr,
+          parseExpr1,
+          parseExpr2,
+          parseExpr3,
+          parseExpr4,
+          parseExpr5,
+          parseExpr6
 ) where
 
 import Lib
@@ -135,11 +141,64 @@ parseLambda = do symbol "\\"
 
 isKey :: String -> Bool
 isKey = \x -> elem x ["Pack", "let", "letrec", "in", "case", "of"]
-{-
-expr :: Parser Int
-expr = do t <- term
-          do symbol "+"
-             e <- expr
-             return (t + e)
-             <|> return t
-             -}
+
+parseExprRightAssociative ::  Parser (Expr Name) ->Parser (Expr Name) -> Parser (Expr Name) -> Parser (Expr Name)
+parseExprRightAssociative opp p1 p2 = do e1 <- p1
+                                         do op <- opp
+                                            e2 <- p2
+                                            return (EAp (EAp op e1) e2)
+                                          <|> return e1
+
+parseExprNoneAssociative ::  Parser (Expr Name) -> Parser (Expr Name) -> Parser (Expr Name)
+parseExprNoneAssociative opp p = do e1 <- p
+                                    do op <- opp
+                                       e2 <- p
+                                       return (EAp (EAp op e1) e2)
+                                     <|> return e1
+
+parseRelopSymbol :: Parser (Expr Name)
+parseRelopSymbol = do op <- token (many letter)
+                      if elem op ["<","<=","==","~=",">=",">" ] then return(EVar op) else empty
+
+parseOperationSymbol :: String -> Parser (Expr Name)
+parseOperationSymbol op = do op_ <- symbol op
+                             return (EVar op_)
+
+parseExpr1 :: Parser (Expr Name)
+parseExpr1 = parseExprRightAssociative (parseOperationSymbol "|") parseExpr2 parseExpr1
+
+parseExpr2 :: Parser (Expr Name)
+parseExpr2 = parseExprRightAssociative (parseOperationSymbol "&") parseExpr3 parseExpr2
+
+parseExpr3 :: Parser (Expr Name)
+parseExpr3 = parseExprNoneAssociative parseRelopSymbol parseExpr4
+
+parseExpr4 :: Parser (Expr Name)
+parseExpr4 = do e1 <- parseExpr5
+                do op <- parseOperationSymbol "+"
+                   e2 <- parseExpr4
+                   return (EAp (EAp op e1) e2)
+                  <|> do op <- parseOperationSymbol "-"
+                         e2 <- parseExpr5
+                         return (EAp (EAp op e1) e2)
+                         <|> return e1
+
+parseExpr5 :: Parser (Expr Name)
+parseExpr5 = do e1 <- parseExpr6
+                do op <- parseOperationSymbol "*"
+                   e2 <- parseExpr5
+                   return (EAp (EAp op e1) e2)
+                  <|> do op <- parseOperationSymbol "/"
+                         e2 <- parseExpr6
+                         return (EAp (EAp op e1) e2)
+                         <|> return e1
+
+
+parseEAp :: [Expr Name] -> Expr Name
+parseEAp xs = case xs of
+                x:[] -> x
+                xs -> EAp (parseEAp (init xs)) (last xs)
+
+parseExpr6 :: Parser (Expr Name)
+parseExpr6 = do aes <- some parseAExpr
+                pure (parseEAp aes)

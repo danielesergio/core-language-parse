@@ -19,7 +19,9 @@ main = do
     testParseIsRec1, testParseIsRec2, testParseIsRec3, testParseIsRec4,
     testParseLet1, testParseLet2, testParseLet3, testParseLet4, testParseLet5, testParseLet6,
     testParseCase1, testParseCase2, testParseCase3, testParseCase4, testParseCase5, testParseCase6, testParseCase7,
-    testParseLambda1, testParseLambda2, testParseLambda3, testParseLambda4, testParseLambda5, testParseLambda6
+    testParseLambda1, testParseLambda2, testParseLambda3, testParseLambda4, testParseLambda5, testParseLambda6,
+    testParseExpr1_1,
+    testParseExpr6_1
     ])
 
 
@@ -178,5 +180,11 @@ testParseLambda5 = assertEqualTestTemplate "parseCase fails with" "\\ x1   1" (p
 
 testParseLambda6 :: TestTree
 testParseLambda6 = assertEqualTestTemplate "parseCase fails with" "\\ x1" (parse parseLambda)  []
+
+testParseExpr1_1 :: TestTree
+testParseExpr1_1 = assertEqualTestTemplate "parseExpr1 successes with" " a | b " (parse parseExpr1)  [(EAp (EAp (EVar "|") (EVar "a")) (EVar "b"), "")]
+
+testParseExpr6_1 :: TestTree
+testParseExpr6_1 = assertEqualTestTemplate "parseExpr6 successes with" " f g h " (parse parseExpr6)  [(EAp (EAp (EVar "f") (EVar "g")) (EVar "h"), "")]
 
 
