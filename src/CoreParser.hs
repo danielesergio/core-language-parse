@@ -39,14 +39,23 @@ parseAExpr :: Parser (Expr String)
 parseAExpr = token parseAExpr_
 
 parseAExpr_ :: Parser (Expr String)
-parseAExpr_ = parserAExprVar <|> parserAExprNumber
+parseAExpr_ = parsePack <|> parserAExprVar <|> parserAExprNumber
 
+parsePack :: Parser (Expr String)
+parsePack = do string "Pack"
+               symbol "{"
+               x <- natural
+               symbol ","
+               y <- natural
+               symbol "}"
+               return (EConstr x y)
 
 
 parserAExprVar :: Parser (Expr String)
 parserAExprVar =  do x <- letter
                      xs <-some alphanumWithUnderScore
                      return (Evar (x:xs))
+
 parserAExprNumber :: Parser (Expr String)
 parserAExprNumber = do n <- nat
                        return (ENum n)
