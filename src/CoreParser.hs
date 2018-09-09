@@ -22,6 +22,7 @@ module CoreParser(
 import Lib
 import Model
 import Control.Applicative
+import Data.Char (isSymbol)
 
 
 --parseExpr :: Parser (Expr Name)
@@ -101,7 +102,7 @@ parseAlt = do symbol "<"
 
 -- start parseExpr
 parseExpr :: Parser (Expr Name)
-parseExpr = parseCase <|> parseLet <|> parseLambda <|> parseAExpr
+parseExpr = parseLet <|> parseCase <|> parseLambda <|> parseExpr1
 -- end  parseExpr
 
 parseList :: Parser a -> String -> Parser [a]
@@ -149,15 +150,8 @@ parseExprRightAssociative opp p1 p2 = do e1 <- p1
                                             return (EAp (EAp op e1) e2)
                                           <|> return e1
 
-parseExprNoneAssociative ::  Parser (Expr Name) -> Parser (Expr Name) -> Parser (Expr Name)
-parseExprNoneAssociative opp p = do e1 <- p
-                                    do op <- opp
-                                       e2 <- p
-                                       return (EAp (EAp op e1) e2)
-                                     <|> return e1
-
 parseRelopSymbol :: Parser (Expr Name)
-parseRelopSymbol = do op <- token (many letter)
+parseRelopSymbol = do op <- token (many (sat isSymbol))
                       if elem op ["<","<=","==","~=",">=",">" ] then return(EVar op) else empty
 
 parseOperationSymbol :: String -> Parser (Expr Name)
@@ -171,7 +165,7 @@ parseExpr2 :: Parser (Expr Name)
 parseExpr2 = parseExprRightAssociative (parseOperationSymbol "&") parseExpr3 parseExpr2
 
 parseExpr3 :: Parser (Expr Name)
-parseExpr3 = parseExprNoneAssociative parseRelopSymbol parseExpr4
+parseExpr3 = parseExprRightAssociative parseRelopSymbol parseExpr4 parseExpr4
 
 parseExpr4 :: Parser (Expr Name)
 parseExpr4 = do e1 <- parseExpr5
