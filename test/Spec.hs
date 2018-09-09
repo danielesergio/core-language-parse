@@ -11,7 +11,7 @@ main = do
   defaultMain (testGroup "Our Library Tests"[
     sayYoTest,
     testAlphanumWithUnderScore1, testAlphanumWithUnderScore2, testAlphanumWithUnderScore3,
-    testParseAExpr1, testParseAExpr2, testParseAExpr3, testParseAExpr4, testParseAExpr5, testParseAExpr6])
+    testParseAExpr1, testParseAExpr2, testParseAExpr3, testParseAExpr4, testParseAExpr5, testParseAExpr6, testParseAExpr7, testParseAExpr8, testParseAExpr9])
 
 sayYoTest :: TestTree
 sayYoTest = testCase "Testing sayYo"
@@ -46,3 +46,15 @@ testParseAExpr5 = testCase "test parseAExpr success with  \"121 _asdf \"" (asser
 
 testParseAExpr6 :: TestTree
 testParseAExpr6 = testCase "test parseAExpr success with  \"Pack{121,0}_asdf \"" (assertEqual [] [(EConstr 121 0,"_asdf ")] (parse parseAExpr "Pack{121,0}_asdf ") )
+
+testParseAExpr7 :: TestTree
+testParseAExpr7 = testCase "test parseAExpr success with  \"(Pack{121,0})_asdf \"" (assertEqual [] [(EConstr 121 0,"_asdf ")] (parse parseAExpr "(Pack{121,0})_asdf ") )
+
+testParseAExpr8 :: TestTree
+testParseAExpr8 = testCase "test parseAExpr success with  \"(121) _asdf \"" (assertEqual [] [(ENum 121,"_asdf ")] (parse parseAExpr "(121) _asdf ") )
+
+testParseAExpr9 :: TestTree
+testParseAExpr9 = testCase "test parseAExpr success with  \"(var)121 _asdf \"" (assertEqual [] [(Evar "var","121 _asdf ")] (parse parseAExpr "(var)121 _asdf ") )
+
+
+

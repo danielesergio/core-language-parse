@@ -39,7 +39,7 @@ parseAExpr :: Parser (Expr String)
 parseAExpr = token parseAExpr_
 
 parseAExpr_ :: Parser (Expr String)
-parseAExpr_ = parsePack <|> parserAExprVar <|> parserAExprNumber
+parseAExpr_ = parseExprIntoBrackets <|> parsePack <|> parserAExprVar <|> parserAExprNumber
 
 parsePack :: Parser (Expr String)
 parsePack = do string "Pack"
@@ -50,6 +50,11 @@ parsePack = do string "Pack"
                symbol "}"
                return (EConstr x y)
 
+parseExprIntoBrackets :: Parser (Expr String)
+parseExprIntoBrackets = do symbol "("
+                           expr <- parseAExpr
+                           symbol ")"
+                           return expr
 
 parserAExprVar :: Parser (Expr String)
 parserAExprVar =  do x <- letter
