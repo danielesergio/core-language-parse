@@ -13,7 +13,8 @@ main = do
     testAlphanumWithUnderScore1, testAlphanumWithUnderScore2, testAlphanumWithUnderScore3,
     testParseAExpr1, testParseAExpr2, testParseAExpr3, testParseAExpr4, testParseAExpr5, testParseAExpr6, testParseAExpr7,
     testParseAExpr8, testParseAExpr9, testParseAExpr10, testParseAExpr11,
-    testParseDef1, testParseDef2, testParseDef3, testParseDef4
+    testParseDef1, testParseDef2, testParseDef3, testParseDef4,
+    testParseAlt1, testParseAlt2, testParseAlt3, testParseAlt4, testParseAlt5
     ])
 
 
@@ -74,3 +75,17 @@ testParseDef3 = assertEqualTestTemplate "parseDef fails with" "vv  3" (parse par
 testParseDef4 :: TestTree
 testParseDef4 = assertEqualTestTemplate "parseDef fails with" "vv = " (parse parseDef)  []
 
+testParseAlt1 :: TestTree
+testParseAlt1 = assertEqualTestTemplate "parseAlt successes with" "<1> x y -> Pack{121,0}" (parse parseAlt)  [((1, ["x", "y"],  EConstr 121 0),"")]
+
+testParseAlt2 :: TestTree
+testParseAlt2 = assertEqualTestTemplate "parseAlt successes with" "<1>  -> Pack{121,0}" (parse parseAlt)  [((1, [],  EConstr 121 0),"")]
+
+testParseAlt3 :: TestTree
+testParseAlt3 = assertEqualTestTemplate "parseAlt fails with" "<1> x y  Pack{121,0}" (parse parseAlt)  []
+
+testParseAlt4 :: TestTree
+testParseAlt4 = assertEqualTestTemplate "parseAlt fails with" "<a> x y -> Pack{121,0}" (parse parseAlt)  []
+
+testParseAlt5 :: TestTree
+testParseAlt5 = assertEqualTestTemplate "parseAlt fails with" "<1> x y -> " (parse parseAlt)  []
