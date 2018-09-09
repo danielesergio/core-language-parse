@@ -39,12 +39,17 @@ parseAExpr :: Parser (Expr String)
 parseAExpr = token parseAExpr_
 
 parseAExpr_ :: Parser (Expr String)
-parseAExpr_ = do x <- letter
-                 xs <-some alphanumWithUnderScore
-                 return (Evar (x:xs))
-                 <|> do n <- nat
-                        return (ENum n)
+parseAExpr_ = parserAExprVar <|> parserAExprNumber
 
+
+
+parserAExprVar :: Parser (Expr String)
+parserAExprVar =  do x <- letter
+                     xs <-some alphanumWithUnderScore
+                     return (Evar (x:xs))
+parserAExprNumber :: Parser (Expr String)
+parserAExprNumber = do n <- nat
+                       return (ENum n)
 
 alphanumWithUnderScore :: Parser Char
 alphanumWithUnderScore = alphanum <|> sat (== '_')
