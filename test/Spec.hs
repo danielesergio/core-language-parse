@@ -14,7 +14,8 @@ main = do
     testParseAExpr1, testParseAExpr2, testParseAExpr3, testParseAExpr4, testParseAExpr5, testParseAExpr6, testParseAExpr7,
     testParseAExpr8, testParseAExpr9, testParseAExpr10, testParseAExpr11,
     testParseDef1, testParseDef2, testParseDef3, testParseDef4,
-    testParseAlt1, testParseAlt2, testParseAlt3, testParseAlt4, testParseAlt5
+    testParseAlt1, testParseAlt2, testParseAlt3, testParseAlt4, testParseAlt5,
+    testParseList1, testParseList2, testParseList3, testParseList4
     ])
 
 
@@ -89,3 +90,15 @@ testParseAlt4 = assertEqualTestTemplate "parseAlt fails with" "<a> x y -> Pack{1
 
 testParseAlt5 :: TestTree
 testParseAlt5 = assertEqualTestTemplate "parseAlt fails with" "<1> x y -> " (parse parseAlt)  []
+
+testParseList1 :: TestTree
+testParseList1 = assertEqualTestTemplate "parseList of parseAlt success with" "<1> x y -> Pack{121,0}" (parse (parseList parseAlt ";"))  [([(1, ["x","y"], EConstr 121 0)],"")]
+
+testParseList2 :: TestTree
+testParseList2 = assertEqualTestTemplate "parseList of parseAlt success with" "<1> x y -> Pack{121,0}; <2>  -> 1;  <3> x -> test" (parse (parseList parseAlt ";"))  [([(1, ["x","y"], EConstr 121 0), (2, [], ENum 1), (3, ["x"], EVar "test")],"")]
+
+testParseList3 :: TestTree
+testParseList3 = assertEqualTestTemplate "parseList of parseDef success with" "x = Pack{121,0}" (parse (parseList parseDef ";")) [([("x", EConstr 121 0)],"")]
+
+testParseList4 :: TestTree
+testParseList4 = assertEqualTestTemplate "parseList of parseDef success with" "x = Pack{121,0} ; y = 12" (parse (parseList parseDef ";"))  [([("x", EConstr 121 0), ("y", ENum 12)],"")]

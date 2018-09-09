@@ -2,7 +2,8 @@ module CoreParser(
           alphanumWithUnderScore,
           parseAExpr,
           parseDef,
-          parseAlt
+          parseAlt,
+          parseList
 ) where
 
 import Lib
@@ -104,6 +105,13 @@ parseAlt = do symbol "<"
 parseExpr :: Parser (Expr Name)
 parseExpr = parseAExpr
 -- end  parseExpr
+
+parseList :: Parser a -> String -> Parser [a]
+parseList p separator = do x <- p
+                           do symbol separator
+                              xs <- parseList p separator
+                              return (x:xs)
+                              <|> return([x])
 
 isKey :: String -> Bool
 isKey = \x -> elem x ["Pack"]
