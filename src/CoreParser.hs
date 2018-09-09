@@ -3,7 +3,9 @@ module CoreParser(
           parseAExpr,
           parseDef,
           parseAlt,
-          parseList
+          parseList,
+          parseLet,
+          parseIsRec
 ) where
 
 import Lib
@@ -113,8 +115,23 @@ parseList p separator = do x <- p
                               return (x:xs)
                               <|> return([x])
 
+parseIsRec :: Parser IsRec
+parseIsRec = do x <- token (many letter)
+                case x of
+                  "let"    -> return (NonRecursive)
+                  "letrec" -> return (Recursive)
+                  _ -> empty
+
+parseLet :: Parser (Expr Name)
+parseLet = do isRec <- parseIsRec
+              defs  <- parseList parseDef ";"
+              symbol "in"
+              expr  <- parseExpr
+              return (ELet isRec defs expr)
+
+
 isKey :: String -> Bool
-isKey = \x -> elem x ["Pack"]
+isKey = \x -> elem x ["Pack", "let", "letrec", "in"]
 {-
 expr :: Parser Int
 expr = do t <- term

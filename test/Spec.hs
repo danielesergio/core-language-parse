@@ -15,7 +15,9 @@ main = do
     testParseAExpr8, testParseAExpr9, testParseAExpr10, testParseAExpr11,
     testParseDef1, testParseDef2, testParseDef3, testParseDef4,
     testParseAlt1, testParseAlt2, testParseAlt3, testParseAlt4, testParseAlt5,
-    testParseList1, testParseList2, testParseList3, testParseList4
+    testParseList1, testParseList2, testParseList3, testParseList4,
+    testParseIsRec1, testParseIsRec2, testParseIsRec3, testParseIsRec4,
+    testParseLet1, testParseLet2, testParseLet3, testParseLet4, testParseLet5, testParseLet6
     ])
 
 
@@ -102,3 +104,33 @@ testParseList3 = assertEqualTestTemplate "parseList of parseDef success with" "x
 
 testParseList4 :: TestTree
 testParseList4 = assertEqualTestTemplate "parseList of parseDef success with" "x = Pack{121,0} ; y = 12" (parse (parseList parseDef ";"))  [([("x", EConstr 121 0), ("y", ENum 12)],"")]
+
+testParseIsRec1 :: TestTree
+testParseIsRec1 = assertEqualTestTemplate "parseIsRec success with" " let " (parse parseIsRec)  [(NonRecursive,"")]
+
+testParseIsRec2 :: TestTree
+testParseIsRec2 = assertEqualTestTemplate "parseIsRec success with" " letrec " (parse parseIsRec)  [(Recursive,"")]
+
+testParseIsRec3 :: TestTree
+testParseIsRec3 = assertEqualTestTemplate "parseIsRec fails with" " letarec " (parse parseIsRec)  []
+
+testParseIsRec4 :: TestTree
+testParseIsRec4 = assertEqualTestTemplate "parseIsRec fails with" "  " (parse parseIsRec)  []
+
+testParseLet1 :: TestTree
+testParseLet1 = assertEqualTestTemplate "parseLet success with" "let x = Pack{121,0} ; y = 12 in z" (parse parseLet)  [(ELet NonRecursive [("x", EConstr 121 0), ("y", ENum 12)] (EVar "z"),"")]
+
+testParseLet2 :: TestTree
+testParseLet2 = assertEqualTestTemplate "parseLet success with" "let x = Pack{121,0} in z" (parse parseLet)  [(ELet NonRecursive [("x", EConstr 121 0)] (EVar "z"),"")]
+
+testParseLet3 :: TestTree
+testParseLet3 = assertEqualTestTemplate "parseLet fails with" "let x = Pack{121,0}; in z" (parse parseLet)  []
+
+testParseLet4 :: TestTree
+testParseLet4 = assertEqualTestTemplate "parseLet fails with" "let in z" (parse parseLet)  []
+
+testParseLet5 :: TestTree
+testParseLet5 = assertEqualTestTemplate "parseLet fails with" "let x = Pack{121,0}; adasd in z" (parse parseLet)  []
+
+testParseLet6 :: TestTree
+testParseLet6 = assertEqualTestTemplate "parseLet fails with" "let x = Pack{121,0} z" (parse parseLet)  []
