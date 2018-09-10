@@ -188,11 +188,13 @@ parseExpr5 = do e1 <- parseExpr6
                          <|> return e1
 
 
-parseEAp :: [Expr Name] -> Expr Name
-parseEAp xs = case xs of
-                x:[] -> x
-                xs -> EAp (parseEAp (init xs)) (last xs)
+parseEAp :: Expr Name -> [Expr Name] -> Expr Name
+{-parseEAp x xs = case xs of
+                []    -> x
+                x':xs -> parseEAp (EAp x x') xs
+-}
+parseEAp x xs = foldl EAp x xs
 
 parseExpr6 :: Parser (Expr Name)
-parseExpr6 = do aes <- some parseAExpr
-                pure (parseEAp aes)
+parseExpr6 = do x:xs <- some parseAExpr
+                pure (parseEAp x xs)
