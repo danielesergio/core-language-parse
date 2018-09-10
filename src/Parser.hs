@@ -1,4 +1,4 @@
-module CoreParser(
+module Parser(
           alphanumWithUnderScore,
           parseAExpr,
           parseDef,

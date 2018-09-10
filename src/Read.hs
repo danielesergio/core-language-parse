@@ -4,7 +4,7 @@ module Read(
 
 import System.IO
 import Model(Program, Name)
-import CoreParser
+import Parser
 import Model
 import Lib
 import Control.Applicative
