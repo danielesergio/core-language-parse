@@ -1,16 +1,40 @@
-Leaf = Pack{1,1};
-Node = Pack{2,3};
+data Colour = Red | Green | Blue;
+data Complex = Rect Num Num | Polar Num Num;
+data Tree a = Leaf a | Node (Tree a) (Tree a);
+data NumPair = MkNumPair Num Num;
+
+data Colour = Red | Green | Blue;
+Red = Pack{1,0};
+Green = Pack{2,0};
+Blue =Pack{3,0};
+
+data Complex = Rect Num Num | Polar Num Num;
+Rect = Pack{4,2};
+Polar = Pack{5,2};
+
+data Tree a = Leaf a | Node (Tree a) (Tree a);
+Leaf = Pack{6,1};
+Node =Pack{7,2};
+
+isRed c = case c of
+  <1> -> True ;
+  <2> -> False ;
+  <3> -> False;
 
 depth t = case t of
-           <1> a -> 0;
-           <2> t1 b t2 -> let bigger = \ x y . max x y
-                           in 1 + bigger (depth t1) (depth t2);
+  <1> a_ -> 0;
+  <2> t1 t2 -> 1 + max (depth t1) (depth t2);
+
+  main = double 21;
+  double x = x+x;
+
 
 f = 3;
-k=  5;
-sum x= \y . x+y;
-u= Pack {9,8};
-g6 x y = let z = 8 in z;
-h x = case (h g) of
- <1 > a_ -> 2 +1;
- <2 > t1 t2 -> e < u
+g x y = let z = x in z;
+h x = case (let y = x in y) of
+  <1> -> 2;
+  <2> -> 5;
+
+h x = case (letrec y = x in y) of
+  <1> a b c -> 2;
+  <2> -> 5
