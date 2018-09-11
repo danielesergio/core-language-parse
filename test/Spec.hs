@@ -27,7 +27,17 @@ main = do
     testParseExpr1_26, testParseExpr1_27, testParseExpr1_28, testParseExpr1_29, testParseExpr1_30, testParseExpr1_31, testParseExpr1_32,
     testParseExpr1_33, testParseExpr1_34, testParseExpr1_35, testParseExpr1_36, testParseExpr1_37, testParseExpr1_38, testParseExpr1_39,
     testParseExpr1_40, testParseExpr1_41, testParseExpr1_42, testParseExpr1_43, testParseExpr1_44, testParseExpr1_45, testParseExpr1_46,
-    testParseExpr1_47, testParseExpr1_48, testParseExpr1_49
+    testParseExpr1_47, testParseExpr1_48, testParseExpr1_49, testParseExpr1_50, testParseExpr1_51, testParseExpr1_52, testParseExpr1_53,
+    testParseExpr1_54, testParseExpr1_55, testParseExpr1_56, testParseExpr1_57, testParseExpr1_58, testParseExpr1_59, testParseExpr1_60,
+    testParseExpr1_61, testParseExpr1_62, testParseExpr1_63, testParseExpr1_64, testParseExpr1_65, testParseExpr1_66, testParseExpr1_67,
+    testParseExpr1_68, testParseExpr1_69, testParseExpr1_70, testParseExpr1_71, testParseExpr1_72, testParseExpr1_73, testParseExpr1_74,
+    testParseExpr1_75, testParseExpr1_76, testParseExpr1_77, testParseExpr1_78, testParseExpr1_79, testParseExpr1_80, testParseExpr1_81,
+    testParseExpr1_82, testParseExpr1_83, testParseExpr1_84, testParseExpr1_85, testParseExpr1_86, testParseExpr1_87, testParseExpr1_88,
+    testParseExpr1_89, testParseExpr1_90, testParseExpr1_91, testParseExpr1_92, testParseExpr1_93, testParseExpr1_94, testParseExpr1_95,
+    testParseExpr1_96, testParseExpr1_97, testParseExpr1_98, testParseExpr1_99, testParseExpr1_100, testParseExpr1_101, testParseExpr1_102,
+    testParseExpr1_103, testParseExpr1_104, testParseExpr1_105, testParseExpr1_106, testParseExpr1_107, testParseExpr1_108, testParseExpr1_109,
+    testParseExpr1_110, testParseExpr1_111, testParseExpr1_112, testParseExpr1_113, testParseExpr1_114, testParseExpr1_115, testParseExpr1_116,
+    testParseExpr1_117, testParseExpr1_118, testParseExpr1_119, testParseExpr1_120, testParseExpr1_121, testParseExpr1_122
     ])
 
 
@@ -195,19 +205,19 @@ testParseExpr1_2 :: TestTree
 testParseExpr1_2 = assertEqualTestTemplate "parseExpr1 successes with" " a & b & c" (parse parseExpr1)   [(EAp (EAp (EVar "&") (EVar "a")) (EAp (EAp (EVar "&") (EVar "b")) (EVar "c")), "")]
 
 testParseExpr1_3 :: TestTree
-testParseExpr1_3 = assertEqualTestTemplate "parseExpr1 successes with" " a == b == c" (parse parseExpr1)  [(EAp (EAp (EVar "==") (EVar "a")) (EVar "b"), "== c")]
+testParseExpr1_3 = assertEqualTestTemplate "parseExpr1 fails with" " a == b == c" (parse parseExpr1)  [(EAp (EAp (EVar "==") (EVar "a")) (EVar "b"), "== c")]
 
 testParseExpr1_4 :: TestTree
-testParseExpr1_4 = assertEqualTestTemplate "parseExpr1 successes with" " a ~= b ~= c" (parse parseExpr1)  [(EAp (EAp (EVar "~=") (EVar "a")) (EVar "b"), "~= c")]
+testParseExpr1_4 = assertEqualTestTemplate "parseExpr1 fails with" " a ~= b ~= c" (parse parseExpr1)  [(EAp (EAp (EVar "~=") (EVar "a")) (EVar "b"), "~= c")]
 
 testParseExpr1_5 :: TestTree
-testParseExpr1_5 = assertEqualTestTemplate "parseExpr1 successes with" " a >= b >= c" (parse parseExpr1)  [(EAp (EAp (EVar ">=") (EVar "a")) (EVar "b"), ">= c")]
+testParseExpr1_5 = assertEqualTestTemplate "parseExpr1 fails with" " a >= b >= c" (parse parseExpr1)  [(EAp (EAp (EVar ">=") (EVar "a")) (EVar "b"), ">= c")]
 
 testParseExpr1_6 :: TestTree
-testParseExpr1_6 = assertEqualTestTemplate "parseExpr1 successes with" " a < b < c" (parse parseExpr1)  [(EAp (EAp (EVar "<") (EVar "a")) (EVar "b"), "< c")]
+testParseExpr1_6 = assertEqualTestTemplate "parseExpr1 fails with" " a < b < c" (parse parseExpr1)  [(EAp (EAp (EVar "<") (EVar "a")) (EVar "b"), "< c")]
 
 testParseExpr1_7 :: TestTree
-testParseExpr1_7 = assertEqualTestTemplate "parseExpr1 successes with" " a > b > c" (parse parseExpr1)  [(EAp (EAp (EVar ">") (EVar "a")) (EVar "b"), "> c")]
+testParseExpr1_7 = assertEqualTestTemplate "parseExpr1 fails with" " a > b > c" (parse parseExpr1)  [(EAp (EAp (EVar ">") (EVar "a")) (EVar "b"), "> c")]
 
 testParseExpr1_8 :: TestTree
 testParseExpr1_8 = assertEqualTestTemplate "parseExpr1 successes with" " a + b + c" (parse parseExpr1)  [(EAp (EAp (EVar "+") (EVar "a")) (EAp (EAp (EVar "+") (EVar "b")) (EVar "c")), "")]
@@ -216,10 +226,10 @@ testParseExpr1_9 :: TestTree
 testParseExpr1_9 = assertEqualTestTemplate "parseExpr1 successes with" " a * b * c" (parse parseExpr1)  [(EAp (EAp (EVar "*") (EVar "a")) (EAp (EAp (EVar "*") (EVar "b")) (EVar "c")), "")]
 
 testParseExpr1_10 :: TestTree
-testParseExpr1_10 = assertEqualTestTemplate "parseExpr1 successes with" " a / b / d" (parse parseExpr1)  [(EAp (EAp (EVar "/") (EVar "a")) (EVar "b"), "/ d")]
+testParseExpr1_10 = assertEqualTestTemplate "parseExpr1 fails with" " a / b / d" (parse parseExpr1)  [(EAp (EAp (EVar "/") (EVar "a")) (EVar "b"), "/ d")]
 
 testParseExpr1_11 :: TestTree
-testParseExpr1_11 = assertEqualTestTemplate "parseExpr1 successes with" " a <= b <=c" (parse parseExpr1)  [(EAp (EAp (EVar "<=") (EVar "a")) (EVar "b"), "<=c")]
+testParseExpr1_11 = assertEqualTestTemplate "parseExpr1 fails with" " a <= b <=c" (parse parseExpr1)  [(EAp (EAp (EVar "<=") (EVar "a")) (EVar "b"), "<=c")]
 
 testParseExpr1_12 :: TestTree
 testParseExpr1_12 = assertEqualTestTemplate "parseExpr1 successes with" " f g h " (parse parseExpr1)  [(EAp (EAp (EVar "f") (EVar "g")) (EVar "h"), "")]
@@ -325,7 +335,7 @@ testParseExpr1_44 :: TestTree
 testParseExpr1_44 = assertEqualTestTemplate "parseExpr1 successes with" " f > g * h " (parse parseExpr1)  [(EAp (EAp (EVar">") (EVar "f"))(EAp (EAp (EVar "*") (EVar "g")) (EVar "h")) , "")]
 
 testParseExpr1_45 :: TestTree
-testParseExpr1_45 = assertEqualTestTemplate "parseExpr1 successes with" " f / g * h " (parse parseExpr1)   [(EAp (EAp (EVar "/") (EVar "f")) (EVar "g"),"* h ")]
+testParseExpr1_45 = assertEqualTestTemplate "parseExpr1 fails with" " f / g * h " (parse parseExpr1)   [(EAp (EAp (EVar "/") (EVar "f")) (EVar "g"),"* h ")]
 
 testParseExpr1_46 :: TestTree
 testParseExpr1_46 = assertEqualTestTemplate "parseExpr1 successes with" " f == g * h " (parse parseExpr1)  [(EAp (EAp (EVar"==") (EVar "f"))(EAp (EAp (EVar "*") (EVar "g")) (EVar "h")) , "")]
@@ -339,5 +349,230 @@ testParseExpr1_48 = assertEqualTestTemplate "parseExpr1 successes with" " f <= g
 testParseExpr1_49 :: TestTree
 testParseExpr1_49 = assertEqualTestTemplate "parseExpr1 successes with" " f < g * h " (parse parseExpr1)  [(EAp (EAp (EVar"<") (EVar "f"))(EAp (EAp (EVar "*") (EVar "g")) (EVar "h")) , "")]
 
--- + - op & |
--- test alter /
+-- /
+testParseExpr1_50 :: TestTree
+testParseExpr1_50 = assertEqualTestTemplate "parseExpr1 successes with" " f / g | h " (parse parseExpr1)  [(EAp (EAp (EVar "|") (EAp (EAp (EVar "/") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_51 :: TestTree
+testParseExpr1_51 = assertEqualTestTemplate "parseExpr1 successes with" " f / g - h " (parse parseExpr1) [(EAp (EAp (EVar "-") (EAp (EAp (EVar "/") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_52 :: TestTree
+testParseExpr1_52 = assertEqualTestTemplate "parseExpr1 successes with" " f / g > h " (parse parseExpr1) [(EAp (EAp (EVar ">") (EAp (EAp (EVar "/") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_53 :: TestTree
+testParseExpr1_53 = assertEqualTestTemplate "parseExpr1 successes with" " f / g + h " (parse parseExpr1)  [(EAp (EAp (EVar "+") (EAp (EAp (EVar "/") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_54 :: TestTree
+testParseExpr1_54 = assertEqualTestTemplate "parseExpr1 successes with" " f / g == h " (parse parseExpr1) [(EAp (EAp (EVar "==") (EAp (EAp (EVar "/") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_55 :: TestTree
+testParseExpr1_55 = assertEqualTestTemplate "parseExpr1 successes with" " f / g >= h " (parse parseExpr1) [(EAp (EAp (EVar ">=") (EAp (EAp (EVar "/") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_56 :: TestTree
+testParseExpr1_56 = assertEqualTestTemplate "parseExpr1 successes with" " f / g <= h " (parse parseExpr1)  [(EAp (EAp (EVar "<=") (EAp (EAp (EVar "/") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_57 :: TestTree
+testParseExpr1_57 = assertEqualTestTemplate "parseExpr1 successes with" " f / g < h " (parse parseExpr1)  [(EAp (EAp (EVar "<") (EAp (EAp (EVar "/") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_58 :: TestTree
+testParseExpr1_58 = assertEqualTestTemplate "parseExpr1 successes with" " f | g / h " (parse parseExpr1)  [(EAp (EAp (EVar"|") (EVar "f"))(EAp (EAp (EVar "/") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_59 :: TestTree
+testParseExpr1_59 = assertEqualTestTemplate "parseExpr1 successes with" " f > g / h " (parse parseExpr1)  [(EAp (EAp (EVar">") (EVar "f"))(EAp (EAp (EVar "/") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_60 :: TestTree
+testParseExpr1_60 = assertEqualTestTemplate "parseExpr1 successes with" " f + g / h " (parse parseExpr1)  [(EAp (EAp (EVar"+") (EVar "f"))(EAp (EAp (EVar "/") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_61 :: TestTree
+testParseExpr1_61 = assertEqualTestTemplate "parseExpr1 successes with" " f == g / h " (parse parseExpr1)  [(EAp (EAp (EVar"==") (EVar "f"))(EAp (EAp (EVar "/") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_62 :: TestTree
+testParseExpr1_62 = assertEqualTestTemplate "parseExpr1 successes with" " f >= g / h " (parse parseExpr1)  [(EAp (EAp (EVar">=") (EVar "f"))(EAp (EAp (EVar "/") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_63 :: TestTree
+testParseExpr1_63 = assertEqualTestTemplate "parseExpr1 successes with" " f <= g / h " (parse parseExpr1)  [(EAp (EAp (EVar"<=") (EVar "f"))(EAp (EAp (EVar "/") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_64 :: TestTree
+testParseExpr1_64 = assertEqualTestTemplate "parseExpr1 successes with" " f < g / h " (parse parseExpr1)  [(EAp (EAp (EVar"<") (EVar "f"))(EAp (EAp (EVar "/") (EVar "g")) (EVar "h")) , "")]
+
+-- +
+testParseExpr1_65 :: TestTree
+testParseExpr1_65 = assertEqualTestTemplate "parseExpr1 successes with" " f + g | h " (parse parseExpr1)  [(EAp (EAp (EVar "|") (EAp (EAp (EVar "+") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_66 :: TestTree
+testParseExpr1_66 = assertEqualTestTemplate "parseExpr1 successes with" " f + g - h " (parse parseExpr1) [(EAp (EAp (EVar "+") (EVar "f")) (EAp (EAp (EVar "-") (EVar "g")) (EVar "h")), "")]
+
+testParseExpr1_67 :: TestTree
+testParseExpr1_67 = assertEqualTestTemplate "parseExpr1 successes with" " f + g > h " (parse parseExpr1) [(EAp (EAp (EVar ">") (EAp (EAp (EVar "+") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_68 :: TestTree
+testParseExpr1_68 = assertEqualTestTemplate "parseExpr1 successes with" " f + g == h " (parse parseExpr1) [(EAp (EAp (EVar "==") (EAp (EAp (EVar "+") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_69 :: TestTree
+testParseExpr1_69 = assertEqualTestTemplate "parseExpr1 successes with" " f + g >= h " (parse parseExpr1) [(EAp (EAp (EVar ">=") (EAp (EAp (EVar "+") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_70 :: TestTree
+testParseExpr1_70 = assertEqualTestTemplate "parseExpr1 successes with" " f + g <= h " (parse parseExpr1)  [(EAp (EAp (EVar "<=") (EAp (EAp (EVar "+") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_71 :: TestTree
+testParseExpr1_71 = assertEqualTestTemplate "parseExpr1 successes with" " f + g < h " (parse parseExpr1)  [(EAp (EAp (EVar "<") (EAp (EAp (EVar "+") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_72 :: TestTree
+testParseExpr1_72 = assertEqualTestTemplate "parseExpr1 successes with" " f | g + h " (parse parseExpr1)  [(EAp (EAp (EVar"|") (EVar "f"))(EAp (EAp (EVar "+") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_73 :: TestTree
+testParseExpr1_73 = assertEqualTestTemplate "parseExpr1 successes with" " f > g + h " (parse parseExpr1)  [(EAp (EAp (EVar">") (EVar "f"))(EAp (EAp (EVar "+") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_74 :: TestTree
+testParseExpr1_74 = assertEqualTestTemplate "parseExpr1 successes with" " f == g + h " (parse parseExpr1)  [(EAp (EAp (EVar"==") (EVar "f"))(EAp (EAp (EVar "+") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_75 :: TestTree
+testParseExpr1_75 = assertEqualTestTemplate "parseExpr1 successes with" " f >= g + h " (parse parseExpr1)  [(EAp (EAp (EVar">=") (EVar "f"))(EAp (EAp (EVar "+") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_76 :: TestTree
+testParseExpr1_76 = assertEqualTestTemplate "parseExpr1 successes with" " f <= g + h " (parse parseExpr1)  [(EAp (EAp (EVar"<=") (EVar "f"))(EAp (EAp (EVar "+") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_77 :: TestTree
+testParseExpr1_77 = assertEqualTestTemplate "parseExpr1 successes with" " f < g + h " (parse parseExpr1)  [(EAp (EAp (EVar"<") (EVar "f"))(EAp (EAp (EVar "+") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_78 :: TestTree
+testParseExpr1_78 = assertEqualTestTemplate "parseExpr1 fail with" " f - g + h " (parse parseExpr1) [(EAp (EAp (EVar "-") (EVar "f")) (EVar "g"),"+ h ")]
+
+-- -
+testParseExpr1_79 :: TestTree
+testParseExpr1_79 = assertEqualTestTemplate "parseExpr1 successes with" " f - g > h " (parse parseExpr1) [(EAp (EAp (EVar ">") (EAp (EAp (EVar "-") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_80 :: TestTree
+testParseExpr1_80 = assertEqualTestTemplate "parseExpr1 successes with" " f - g == h " (parse parseExpr1) [(EAp (EAp (EVar "==") (EAp (EAp (EVar "-") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_81 :: TestTree
+testParseExpr1_81 = assertEqualTestTemplate "parseExpr1 successes with" " f - g >= h " (parse parseExpr1) [(EAp (EAp (EVar ">=") (EAp (EAp (EVar "-") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_82 :: TestTree
+testParseExpr1_82 = assertEqualTestTemplate "parseExpr1 successes with" " f - g <= h " (parse parseExpr1)  [(EAp (EAp (EVar "<=") (EAp (EAp (EVar "-") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_83 :: TestTree
+testParseExpr1_83 = assertEqualTestTemplate "parseExpr1 successes with" " f - g < h " (parse parseExpr1)  [(EAp (EAp (EVar "<") (EAp (EAp (EVar "-") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_84 :: TestTree
+testParseExpr1_84 = assertEqualTestTemplate "parseExpr1 successes with" " f | g - h " (parse parseExpr1)  [(EAp (EAp (EVar"|") (EVar "f"))(EAp (EAp (EVar "-") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_85 :: TestTree
+testParseExpr1_85 = assertEqualTestTemplate "parseExpr1 successes with" " f > g - h " (parse parseExpr1)  [(EAp (EAp (EVar">") (EVar "f"))(EAp (EAp (EVar "-") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_86 :: TestTree
+testParseExpr1_86 = assertEqualTestTemplate "parseExpr1 successes with" " f == g - h " (parse parseExpr1)  [(EAp (EAp (EVar"==") (EVar "f"))(EAp (EAp (EVar "-") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_87 :: TestTree
+testParseExpr1_87 = assertEqualTestTemplate "parseExpr1 successes with" " f >= g - h " (parse parseExpr1)  [(EAp (EAp (EVar">=") (EVar "f"))(EAp (EAp (EVar "-") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_88 :: TestTree
+testParseExpr1_88 = assertEqualTestTemplate "parseExpr1 successes with" " f <= g - h " (parse parseExpr1)  [(EAp (EAp (EVar"<=") (EVar "f"))(EAp (EAp (EVar "-") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_89 :: TestTree
+testParseExpr1_89 = assertEqualTestTemplate "parseExpr1 successes with" " f < g - h " (parse parseExpr1)  [(EAp (EAp (EVar"<") (EVar "f"))(EAp (EAp (EVar "-") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_90 :: TestTree
+testParseExpr1_90 = assertEqualTestTemplate "parseExpr1 successes with" " f - g | h " (parse parseExpr1)  [(EAp (EAp (EVar "|") (EAp (EAp (EVar "-") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+
+testParseExpr1_91 :: TestTree
+testParseExpr1_91 = assertEqualTestTemplate "parseExpr1 successes with" " f - g & h " (parse parseExpr1) [(EAp (EAp (EVar "&") (EAp (EAp (EVar "-") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+
+testParseExpr1_92 :: TestTree
+testParseExpr1_92 = assertEqualTestTemplate "parseExpr1 successes with" " f & g - h " (parse parseExpr1)  [(EAp (EAp (EVar"&") (EVar "f"))(EAp (EAp (EVar "-") (EVar "g")) (EVar "h")) , "")]
+
+--op
+
+testParseExpr1_93 :: TestTree
+testParseExpr1_93 = assertEqualTestTemplate "parseExpr1 successes with" " f & g == h " (parse parseExpr1) [(EAp (EAp (EVar"&") (EVar "f"))(EAp (EAp (EVar "==") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_94 :: TestTree
+testParseExpr1_94 = assertEqualTestTemplate "parseExpr1 successes with" " f | g == h " (parse parseExpr1)  [(EAp (EAp (EVar"|") (EVar "f"))(EAp (EAp (EVar "==") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_95 :: TestTree
+testParseExpr1_95 = assertEqualTestTemplate "parseExpr1 successes with" " f == g & h " (parse parseExpr1) [(EAp (EAp (EVar "&") (EAp (EAp (EVar "==") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_96 :: TestTree
+testParseExpr1_96 = assertEqualTestTemplate "parseExpr1 successes with" " f == g | h " (parse parseExpr1)  [(EAp (EAp (EVar "|") (EAp (EAp (EVar "==") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_97 :: TestTree
+testParseExpr1_97 = assertEqualTestTemplate "parseExpr1 successes with" " f & g ~= h " (parse parseExpr1) [(EAp (EAp (EVar"&") (EVar "f"))(EAp (EAp (EVar "~=") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_98 :: TestTree
+testParseExpr1_98 = assertEqualTestTemplate "parseExpr1 successes with" " f | g ~= h " (parse parseExpr1)  [(EAp (EAp (EVar"|") (EVar "f"))(EAp (EAp (EVar "~=") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_99 :: TestTree
+testParseExpr1_99 = assertEqualTestTemplate "parseExpr1 successes with" " f ~= g & h " (parse parseExpr1) [(EAp (EAp (EVar "&") (EAp (EAp (EVar "~=") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_100 :: TestTree
+testParseExpr1_100 = assertEqualTestTemplate "parseExpr1 successes with" " f ~= g | h " (parse parseExpr1)  [(EAp (EAp (EVar "|") (EAp (EAp (EVar "~=") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_101 :: TestTree
+testParseExpr1_101 = assertEqualTestTemplate "parseExpr1 successes with" " f & g > h " (parse parseExpr1) [(EAp (EAp (EVar"&") (EVar "f"))(EAp (EAp (EVar ">") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_102 :: TestTree
+testParseExpr1_102 = assertEqualTestTemplate "parseExpr1 successes with" " f | g > h " (parse parseExpr1)  [(EAp (EAp (EVar"|") (EVar "f"))(EAp (EAp (EVar ">") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_103 :: TestTree
+testParseExpr1_103 = assertEqualTestTemplate "parseExpr1 successes with" " f > g & h " (parse parseExpr1) [(EAp (EAp (EVar "&") (EAp (EAp (EVar ">") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_104 :: TestTree
+testParseExpr1_104 = assertEqualTestTemplate "parseExpr1 successes with" " f > g | h " (parse parseExpr1)  [(EAp (EAp (EVar "|") (EAp (EAp (EVar ">") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_105 :: TestTree
+testParseExpr1_105 = assertEqualTestTemplate "parseExpr1 successes with" " f & g < h " (parse parseExpr1) [(EAp (EAp (EVar"&") (EVar "f"))(EAp (EAp (EVar "<") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_106 :: TestTree
+testParseExpr1_106 = assertEqualTestTemplate "parseExpr1 successes with" " f | g < h " (parse parseExpr1)  [(EAp (EAp (EVar"|") (EVar "f"))(EAp (EAp (EVar "<") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_107 :: TestTree
+testParseExpr1_107 = assertEqualTestTemplate "parseExpr1 successes with" " f < g & h " (parse parseExpr1) [(EAp (EAp (EVar "&") (EAp (EAp (EVar "<") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_108 :: TestTree
+testParseExpr1_108 = assertEqualTestTemplate "parseExpr1 successes with" " f < g | h " (parse parseExpr1)  [(EAp (EAp (EVar "|") (EAp (EAp (EVar "<") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_109 :: TestTree
+testParseExpr1_109 = assertEqualTestTemplate "parseExpr1 successes with" " f & g <= h " (parse parseExpr1) [(EAp (EAp (EVar"&") (EVar "f"))(EAp (EAp (EVar "<=") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_110 :: TestTree
+testParseExpr1_110 = assertEqualTestTemplate "parseExpr1 successes with" " f | g <= h " (parse parseExpr1)  [(EAp (EAp (EVar"|") (EVar "f"))(EAp (EAp (EVar "<=") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_111 :: TestTree
+testParseExpr1_111 = assertEqualTestTemplate "parseExpr1 successes with" " f <= g & h " (parse parseExpr1) [(EAp (EAp (EVar "&") (EAp (EAp (EVar "<=") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_112 :: TestTree
+testParseExpr1_112 = assertEqualTestTemplate "parseExpr1 successes with" " f <= g | h " (parse parseExpr1)  [(EAp (EAp (EVar "|") (EAp (EAp (EVar "<=") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_113 :: TestTree
+testParseExpr1_113 = assertEqualTestTemplate "parseExpr1 successes with" " f & g >= h " (parse parseExpr1) [(EAp (EAp (EVar"&") (EVar "f"))(EAp (EAp (EVar ">=") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_114 :: TestTree
+testParseExpr1_114 = assertEqualTestTemplate "parseExpr1 successes with" " f | g >= h " (parse parseExpr1)  [(EAp (EAp (EVar"|") (EVar "f"))(EAp (EAp (EVar ">=") (EVar "g")) (EVar "h")) , "")]
+
+testParseExpr1_115 :: TestTree
+testParseExpr1_115 = assertEqualTestTemplate "parseExpr1 successes with" " f >= g & h " (parse parseExpr1) [(EAp (EAp (EVar "&") (EAp (EAp (EVar ">=") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_116 :: TestTree
+testParseExpr1_116 = assertEqualTestTemplate "parseExpr1 successes with" " f >= g | h " (parse parseExpr1)  [(EAp (EAp (EVar "|") (EAp (EAp (EVar ">=") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
+
+testParseExpr1_117 :: TestTree
+testParseExpr1_117 = assertEqualTestTemplate "parseExpr1 fails with" " a == b ~= c" (parse parseExpr1)  [(EAp (EAp (EVar "==") (EVar "a")) (EVar "b"), "~= c")]
+
+testParseExpr1_118 :: TestTree
+testParseExpr1_118 = assertEqualTestTemplate "parseExpr1 fails with" " a ~= b == c" (parse parseExpr1)  [(EAp (EAp (EVar "~=") (EVar "a")) (EVar "b"), "== c")]
+
+testParseExpr1_119 :: TestTree
+testParseExpr1_119 = assertEqualTestTemplate "parseExpr1 fails with" " a > b <= c" (parse parseExpr1)  [(EAp (EAp (EVar ">") (EVar "a")) (EVar "b"), "<= c")]
+
+testParseExpr1_120 :: TestTree
+testParseExpr1_120 = assertEqualTestTemplate "parseExpr1 fails with" " a >= b <= c" (parse parseExpr1)  [(EAp (EAp (EVar ">=") (EVar "a")) (EVar "b"), "<= c")]
+
+-- &
+testParseExpr1_121 :: TestTree
+testParseExpr1_121 = assertEqualTestTemplate "parseExpr1 successes with" " f | g & h " (parse parseExpr1)  [(EAp (EAp (EVar"|") (EVar "f"))(EAp (EAp (EVar "&") (EVar "g")) (EVar "h")) , "")]
+
+
+testParseExpr1_122 :: TestTree
+testParseExpr1_122 = assertEqualTestTemplate "parseExpr1 successes with" " f & g | h " (parse parseExpr1)  [(EAp (EAp (EVar "|") (EAp (EAp (EVar "&") (EVar "f")) (EVar "g"))) (EVar "h") , "")]
